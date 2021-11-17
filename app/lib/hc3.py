@@ -7,6 +7,7 @@ import requests
 
 class FibaroHC3:
     """"""
+
     def __init__(self, ip, port, username, password):
         self.ip = ip
         self.port = port
@@ -32,28 +33,32 @@ class FibaroHC3:
             new_data = StringIO(json.dumps(data, ensure_ascii=False))
             return new_data
 
-    def get_data(self, uri):
+    def get_data(self, uri, timeout: int = 5):
         url = 'http://' + self.ip + ':' + self.port + uri
-        r = requests.get(url, headers=self._header)
+        r = requests.get(url=url, headers=self._header, timeout=timeout)
         return r
 
-    def get_info(self):
+    def check_connection(self, timeout: int = 5):
+        uri = "/api/users"
+        r = self.get_data(uri, timeout=timeout)
+        return r
+
+    def get_info(self, timeout: int = 5):
         uri = "/api/settings/info"
-        r = self.get_data(uri)
-        return r.json()
+        r = self.get_data(uri, timeout=timeout)
+        return r
 
-    def get_all_devices(self):
+    def get_all_devices(self, timeout: int = 5):
         uri = "/api/devices"
-        r = self.get_data(uri)
-        return r.json()
+        r = self.get_data(uri, timeout=timeout)
+        print(r)
+        return r
 
-    def upload_fqa(self, file):
+    def upload_fqa(self, file, timeout: int = 5):
         header = self._header.copy()
         del header['Content-Type']
         uri = '/api/quickApp/import'
         url = 'http://' + self.ip + ':' + self.port + uri
         payload = {"file": file}
-        r = requests.post(url=url, files=payload, headers=header)
+        r = requests.post(url=url, files=payload, headers=header, timeout=timeout)
         return r
-
-

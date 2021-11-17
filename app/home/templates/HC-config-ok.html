@@ -1,0 +1,51 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <h1>HC 連線確認</h1>
+
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>HC info</h3>
+                            </div>
+                            <div class="card-block">
+                                <h4>serialNumber:</h4> &emsp;&emsp; {{hc_info.serialNumber}}<br>
+                                <p><h4>HC Name:</h4>&emsp;&emsp; {{hc_info.hcName}}<br></p>
+                                <p><h4>ip:</h4>&emsp;&emsp; {{form_data.ip}}:{{form_data.port}}<br></p>
+                                <p><h4>user:</h4>&emsp;&emsp; {{form_data.username}}<br></p>
+                                <hr>
+                                <h3>確認覆蓋HA設定檔?</h3>
+                                <form action="/set_hc_config/overwrite" method="post">
+                                    <input name="ip" value="{{form_data.ip}}" type="hidden">
+                                    <input name="port" value="{{form_data.port}}" type="hidden">
+                                    <input name="username" value="{{form_data.username}}" type="hidden">
+                                    <input name="password" value="{{form_data.password}}" type="hidden">
+                                    <button type="submit" class="btn btn-warning" data-toggle="tooltip">YES</button>
+                                    <a href="/"><button type="button" class="btn btn-secondary" data-toggle="tooltip">NO</button></a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

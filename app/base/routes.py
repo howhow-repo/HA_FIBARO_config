@@ -19,10 +19,10 @@ from app.base.models import User
 from app.base.util import verify_pass
 
 
-@blueprint.route('/')
+# @blueprint.route('/')
 def route_default():
     # return redirect(url_for('base_blueprint.login'))
-    return render_template('index.html', segment='index')
+    return render_template('HC-config.html', segment='HC-config')
 
 
 ## Login & Registration
