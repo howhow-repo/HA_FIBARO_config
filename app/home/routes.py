@@ -49,10 +49,10 @@ def overwrite_ha_config():
     config_temp = config_temp.replace("{{USERNAME}}", request.form['username'])
     config_temp = config_temp.replace("{{PASSWORD}}", request.form['password'])
 
-    if os.path.isfile('/.homeassistant/configuration.yaml'):
-        with open('/.homeassistant/configuration.yaml', 'w') as f:
+    if os.path.isfile('/home/pi/.homeassistant/configuration.yaml'):
+        with open('/home/pi/.homeassistant/configuration.yaml', 'w') as f:
             f.write(config_temp)
-        return
+        return "ok"
     else:
         return render_template('HC-config-failed.html', err_msg='home assistant config file not exist')
 
