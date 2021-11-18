@@ -20,8 +20,8 @@ def index():
     return render_template('HC-config.html', segment='HC-config', form=hc_form)
 
 
-@blueprint.route('/set_hc_config', methods=['POST'])
-def set_hc_config():
+@blueprint.route('/setting_hc_config', methods=['POST'])
+def setting_hc_config():
     try:
         hc = FibaroHC3(ip=request.form['ip'], port=request.form['port'],
                        username=request.form['username'], password=request.form['password'])
@@ -35,11 +35,11 @@ def set_hc_config():
                                    err_title="HC connection fail", err_msg='wrong username/password')
 
     except ConnectTimeout:
-        return render_template('HC-config-failed.html',  err_title="HC connection fail", err_msg='connection timeout')
+        return render_template('HC-config-failed.html', err_title="HC connection fail", err_msg='connection timeout')
     except InvalidURL:
-        return render_template('HC-config-failed.html',  err_title="HC connection fail", err_msg='Wrong URL format')
+        return render_template('HC-config-failed.html', err_title="HC connection fail", err_msg='Wrong URL format')
     except Exception as e:
-        return render_template('HC-config-failed.html',  err_title="HC connection fail", err_msg=e)
+        return render_template('HC-config-failed.html', err_title="HC connection fail", err_msg=e)
 
 
 @blueprint.route('/set_hc_config/overwrite', methods=['POST'])
@@ -54,18 +54,37 @@ def overwrite_ha_config():
         with open('/home/pi/.homeassistant/configuration.yaml', 'w') as f:
             f.write(config_temp)
         os.system("sudo systemctl restart homeassistant.service")
-        return "ok, restarting home assistant service."
+        return render_template('simple_info_page.html', msg="ok, restarting home assistant service.")
 
     else:
         return render_template('HC-config-failed.html',
                                err_title="HC connection fail", err_msg='home assistant config file not exist')
 
 
+@blueprint.route('/ha_rebooter')
+def ha_rebooter():
+    return render_template("ha_rebooter.html")
+
+
+@blueprint.route('/ha_rebooter/reboot', methods=['POST'])
+def ha_rebooted():
+    os.system("sudo systemctl restart homeassistant.service")
+    return render_template('simple_info_page.html', msg="ok, restarting home assistant service.")
+
+
+
+
+
+
+@blueprint.route('/demo')
+def demo_page():
+    return render_template("index.html")
+
+
 @blueprint.route('/<template>')
 # @login_required
 def route_template(template):
     try:
-
         if not template.endswith('.html'):
             template += '.html'
 

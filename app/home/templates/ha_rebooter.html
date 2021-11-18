@@ -1,0 +1,59 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <center><h2 class="m-b-10"> Home Assistant Rebooter </h2></center>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+
+                    <div class="col-sm-6" style="margin:0px auto;">
+                        <div class="card">
+                            <div class="card-body">
+                                <center><h3>Home Assistant Rebooter</h3></center>
+                                <h6>Restarting The Home assistant system Here</h6>
+                                <h6>將Home assistant 重新啟動</h6>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form action="/ha_rebooter/reboot" method="POST">
+                                            <button type="submit" class="btn btn-warning">Reboot</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Input group -->
+                    </div>
+
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

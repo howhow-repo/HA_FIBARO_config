@@ -30,11 +30,13 @@
                     <div class="col-sm-6" style="margin:0px auto;">
                         <div class="card">
                             <div class="card-body">
-                                <center><h5>HC Configuration</h5></center>
+                                <center><h3>HC Configuration</h3></center>
+                                <h6>此處填入HC資訊，helper將自動產生config檔案覆蓋掉原本HA的config檔。</h6>
+                                <h6>若是曾手動於該檔案新增的項目也會被覆蓋，還請注意使用。</h6>
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <form method="post" action="/set_hc_config">
+                                        <form method="post" action="/setting_hc_config">
                                             <div class="form-group">
                                                 <label>IP:</label>
                                                 {{ form.ip(placeholder="IP", class="form-control") }}
