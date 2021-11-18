@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 .idea
 .env
+core.entity_registry
 
 # tests and coverage
 *.pytest_cache

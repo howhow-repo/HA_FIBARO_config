@@ -1,0 +1,47 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <h1>Entities list</h1>
+        <h6>數量：{{ ent_len }}</h6>
+        <hr>
+        <div class="main-body">
+             <div class="page-wrapper">
+                 <div class="row">
+
+                     {%for i in msg%}
+                     <div class="col-md-6 col-lg-4">
+                         <div class="card">
+                             <div class="card-header">
+                                 <h5>{{i.original_name}}</h5>
+                             </div>
+                             <div class="card-body">
+                                 <ul>
+                                     <li>entity_id: {{i.entity_id}}</li>
+                                     <li>platform: {{i.platform}}</li>
+                                      <li>unique_id: {{i.unique_id}}</li>
+
+                                 </ul>
+                             </div>
+                         </div>
+                     </div>
+                     {%endfor%}
+
+
+                 </div>
+             </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

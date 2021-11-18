@@ -2,7 +2,7 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-import os
+import os, json
 from app.home import blueprint
 from flask import render_template, redirect, url_for, request
 from flask_login import login_required, current_user
@@ -59,6 +59,15 @@ def overwrite_ha_config():
     else:
         return render_template('HC-config-failed.html',
                                err_title="HC connection fail", err_msg='home assistant config file not exist')
+
+
+@blueprint.route('/ha_entities')
+def ha_entities():
+    with open("/home/pi/.homeassistant/.storage/core.entity_registry") as f:
+        data = f.read()
+    data = json.loads(data)
+    entities = data['data']['entities']
+    return render_template("ha_entities.html", msg=entities, ent_len=len(entities))
 
 
 @blueprint.route('/ha_rebooter')
