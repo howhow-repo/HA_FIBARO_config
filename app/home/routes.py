@@ -31,14 +31,15 @@ def set_hc_config():
             return render_template('HC-config-ok.html', hc_info=hc.get_info().json(), form_data=request.form.to_dict())
 
         elif status_code == 401:
-            return render_template('HC-config-failed.html', err_msg='wrong username/password')
+            return render_template('HC-config-failed.html',
+                                   err_title="HC connection fail", err_msg='wrong username/password')
 
     except ConnectTimeout:
-        return render_template('HC-config-failed.html', err_msg='connection timeout')
+        return render_template('HC-config-failed.html',  err_title="HC connection fail", err_msg='connection timeout')
     except InvalidURL:
-        return render_template('HC-config-failed.html', err_msg='Wrong URL format')
+        return render_template('HC-config-failed.html',  err_title="HC connection fail", err_msg='Wrong URL format')
     except Exception as e:
-        return render_template('HC-config-failed.html', err_msg=e)
+        return render_template('HC-config-failed.html',  err_title="HC connection fail", err_msg=e)
 
 
 @blueprint.route('/set_hc_config/overwrite', methods=['POST'])
@@ -52,9 +53,12 @@ def overwrite_ha_config():
     if os.path.isfile('/home/pi/.homeassistant/configuration.yaml'):
         with open('/home/pi/.homeassistant/configuration.yaml', 'w') as f:
             f.write(config_temp)
-        return "ok"
+        os.system("sudo systenctl restart homeassistant.service")
+        return "ok, restarting home assistant service."
+
     else:
-        return render_template('HC-config-failed.html', err_msg='home assistant config file not exist')
+        return render_template('HC-config-failed.html',
+                               err_title="HC connection fail", err_msg='home assistant config file not exist')
 
 
 @blueprint.route('/<template>')
