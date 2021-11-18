@@ -53,7 +53,7 @@ def overwrite_ha_config():
     if os.path.isfile('/home/pi/.homeassistant/configuration.yaml'):
         with open('/home/pi/.homeassistant/configuration.yaml', 'w') as f:
             f.write(config_temp)
-        os.system("sudo systenctl restart homeassistant.service")
+        os.system("sudo systemctl restart homeassistant.service")
         return "ok, restarting home assistant service."
 
     else:
