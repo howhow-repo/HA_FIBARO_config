@@ -96,7 +96,7 @@ def ha_entities():
     token = d['token']
     if token is None:
         return redirect(url_for("home_blueprint.ha_index"))
-    ha = HomeAssistant(ip="localhost", port=8123, token=token)
+    ha = HomeAssistant(ip="localhost", port="8123", token=token)
     if not ha.is_connected():
         return redirect(url_for("home_blueprint.ha_index"))
 
