@@ -15,7 +15,7 @@
         <h6> Delete all 'unavailable' & 'scening' scening </h6>
         <form method="post" action="/bad_entities">
             {%for i in entities%}
-            {% if i.state == 'unavailable' or i.state == 'unavailable' %}
+            {% if i.state == 'unavailable' or i.state == 'scening' %}
                 <input type="hidden" name="bad_entities[]" value="{{i.entity_id}}">
             {% endif %}
             {%endfor%}
@@ -35,7 +35,7 @@
                              <div class="card-body">
                                  <ul>
                                      <li>entity_id: {{i.entity_id}}</li>
-                                     <li{% if i.state == 'unavailable' or i.state == 'unavailable' %}
+                                     <li{% if i.state == 'unavailable' or i.state == 'scening' %}
                                             style="color:red"
                                          {% endif %} >
                                         state: {{i.state}}
