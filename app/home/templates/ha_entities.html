@@ -25,8 +25,12 @@
                              <div class="card-body">
                                  <ul>
                                      <li>entity_id: {{i.entity_id}}</li>
-                                     <li>state: {{i.state}}</li>
-                                     <li>unique_id: {{i.unique_id}}</li>
+                                     <li {% if i.state == 'unavailable' %}
+                                                style="color:red"
+                                     {% endif %} >
+                                        state: {{i.state}}
+                                     </li>
+                                     <li>device_class: {{i.attributes.device_class}}</li>
                                  </ul>
                              </div>
                          </div>
