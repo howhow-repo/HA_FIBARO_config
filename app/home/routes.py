@@ -129,7 +129,7 @@ def bad_entities():
     return render_template('ha_bad_entities.html', entities=bad_entities, ent_len=len(bad_entities))
 
 
-@blueprint.route('/bad_entities', methods=['POST'])
+@blueprint.route('/del_bad_entities', methods=['POST'])
 def del_bad_entities():
     s = request.form['bad_entities']
     s = s.replace('[', '')
