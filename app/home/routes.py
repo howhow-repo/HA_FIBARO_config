@@ -95,7 +95,7 @@ def ha_entities():
         d = json.loads(f.read())
     token = d['token']
     if token is None:
-        return redirect(url_for("ha_set_token"))
+        return redirect(url_for("home_blueprint.ha_index"))
     ha = HomeAssistant(ip="localhost", port=8123, token=token)
     if not ha.is_connected():
         return redirect(url_for("home_blueprint.ha_index"))
