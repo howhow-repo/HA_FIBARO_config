@@ -15,7 +15,8 @@ class HomeAssistant:
         uri = '/api/'
         url = 'http://' + self.ip + ':' + self.port + uri
         r = requests.get(url, headers=self._header)
-        if (r.json())['message'] == "API running." :
+        status_code = r.status_code
+        if status_code == 200 and (r.json())['message'] == "API running.":
             return True
         return False
 
