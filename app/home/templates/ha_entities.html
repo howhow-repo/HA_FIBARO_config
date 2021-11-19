@@ -12,11 +12,21 @@
         <h1>Entities list</h1>
         <h6>數量：{{ ent_len }}</h6>
         <hr>
+        <h6> Delete all 'unavailable' & 'scening' scening </h6>
+        <form method="post" action="/bad_entities">
+            {%for i in entities%}
+            {% if i.state == 'unavailable' or i.state == 'unavailable' %}
+                <input type="hidden" name="bad_entities[]" value="{{i.entity_id}}"> Oats
+            {% endif %}
+            {%endfor%}
+            <button type="submit" class="btn btn-danger">DELETE</button>
+        </form>
+        <hr>
         <div class="main-body">
              <div class="page-wrapper">
                  <div class="row">
 
-                     {%for i in msg%}
+                     {%for i in entities%}
                      <div class="col-md-6 col-lg-4">
                          <div class="card">
                              <div class="card-header">
@@ -25,9 +35,9 @@
                              <div class="card-body">
                                  <ul>
                                      <li>entity_id: {{i.entity_id}}</li>
-                                     <li {% if i.state == 'unavailable' %}
-                                                style="color:red"
-                                     {% endif %} >
+                                     <li{% if i.state == 'unavailable' or i.state == 'unavailable' %}
+                                            style="color:red"
+                                         {% endif %} >
                                         state: {{i.state}}
                                      </li>
                                      <li>device_class: {{i.attributes.device_class}}</li>

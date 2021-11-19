@@ -105,7 +105,12 @@ def ha_entities():
 
     entities = ha.get_all_entity()
 
-    return render_template("ha_entities.html", msg=entities, ent_len=len(entities))
+    return render_template("ha_entities.html", entities=entities, ent_len=len(entities))
+
+
+@blueprint.route('/bad_entities')
+def bad_entities():
+    return render_template('simple_info_page.html', msg=request.form)
 
 
 @blueprint.route('/ha_rebooter')
