@@ -20,6 +20,12 @@ def index():
     return render_template('HC-config.html', segment='HC-config', form=hc_form)
 
 
+@blueprint.route('/hc_index')
+def hc_index():
+    with open("./app/home/data/hc.json", "r") as f:
+        return f.read()
+
+
 @blueprint.route('/setting_hc_config', methods=['POST'])
 def setting_hc_config():
     try:
