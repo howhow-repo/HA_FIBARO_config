@@ -13,6 +13,8 @@
         <h6>數量：{{ ent_len }}</h6>
         <hr>
         <h6> Delete all 'unavailable' & 'scening' scening </h6>
+
+        {% if 'bad_entities' not in segment %}
         <form method="post" action="/bad_entities">
             <input type="hidden" name="bad_entities"
                 value="[
@@ -25,6 +27,8 @@
             <button type="submit" class="btn btn-danger">DELETE</button>
         </form>
         <hr>
+        {% endif %}
+
         <div class="main-body">
              <div class="page-wrapper">
                  <div class="row">
