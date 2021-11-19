@@ -124,9 +124,23 @@ def bad_entities():
         return redirect(url_for("home_blueprint.ha_index"))
     ha = HomeAssistant(ip="localhost", port="8123", token=token)
     entities = ha.get_all_entity()
-    bad_entities = [e for e in entities if entities['entity_id'] in bad_entities_id]
+    bad_entities = [e for e in entities if e['entity_id'] in bad_entities_id]
 
-    return render_template('ha_entities.html', segment='bad_entities', entities=bad_entities)
+    return render_template('ha_bad_entities.html', entities=bad_entities, ent_len=len(bad_entities))
+
+
+@blueprint.route('/bad_entities', methods=['POST'])
+def del_bad_entities():
+    s = request.form['bad_entities']
+    s = s.replace('[', '')
+    s = s.replace(']', '')
+    s = s.replace('\r\n', '')
+    s = s.replace(' ', '')
+    bad_entities_id = [ele for ele in s.split(',') if ele.strip()]
+    with open("/home/pi/.homeassistant/.storage/core.entity_registry", "w") as f:
+        org_data = json.loads(f.read())
+        org_entities = org_data['data']['entities']
+    return render_template('simple_info_page.html', msg=[e for e in org_entities if e in bad_entities_id])
 
 
 @blueprint.route('/ha_rebooter')

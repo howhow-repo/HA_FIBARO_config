@@ -9,12 +9,12 @@
 
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
-        <h1>Entities list</h1>
+        <h1>BAD Entities list</h1>
         <h6>數量：{{ ent_len }}</h6>
         <hr>
-        <h6> Delete all 'unavailable' & 'scening' scening </h6>
+        <h6> Do you really want to delete these? </h6>
 
-        <form method="post" action="/bad_entities">
+        <form method="post" action="/del_bad_entities">
             <input type="hidden" name="bad_entities"
                 value="[
                     {%for i in entities%}
@@ -24,6 +24,7 @@
                     {%endfor%}
                 ]">
             <button type="submit" class="btn btn-danger">DELETE</button>
+            <a href="/"><button type="button" class="btn btn-secondary" data-toggle="tooltip">NO</button></a>
         </form>
         <hr>
 
