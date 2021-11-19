@@ -83,10 +83,13 @@ def ha_index():
 
 @blueprint.route('/setting_ha_token', methods=['POST'])
 def ha_set_token():
-    with open("./app/home/data/ha_token.json", "w") as f:
-        f.write(json.dumps({"token": request.form['token']}))
-
-    return render_template('simple_info_page.html', msg="ok, HA token has saved")
+    ha = HomeAssistant(ip="localhost", port="8123", token=request.form['token'])
+    if not ha.is_connected():
+        return render_template('simple_info_page.html', msg="Access failed with this token")
+    else:
+        with open("./app/home/data/ha_token.json", "w") as f:
+            f.write(json.dumps({"token": request.form['token']}))
+        return render_template('simple_info_page.html', msg="ok, HA token has saved")
 
 
 @blueprint.route('/ha_entities')
