@@ -8,9 +8,10 @@ from flask import render_template, redirect, url_for, request
 from flask_login import login_required, current_user
 from app import login_manager
 from jinja2 import TemplateNotFound
-from app.home.forms import HCForm
+from app.home.forms import HCForm, HATokenForm
 from requests.exceptions import ConnectTimeout, InvalidURL, ConnectionError
 from app.lib.hc3 import FibaroHC3
+from app.lib.home_assistant import HomeAssistant
 
 
 @blueprint.route('/')
@@ -72,19 +73,35 @@ def overwrite_ha_config():
                                err_title="HC connection fail", err_msg='home assistant config file not exist')
 
 
-@blueprint.route('/ha_index')
+@blueprint.route('/ha_token')
 def ha_index():
     with open("./app/home/data/ha_token.json", "r") as f:
-        token = (json.loads(f.read()))['token']
-        return token
+        d = json.loads(f.read())
+    token = d['token']
+    return render_template("ha_index.html", last_token=token, form=HATokenForm())
+
+
+@blueprint.route('/setting_ha_token', methods=['POST'])
+def ha_set_token():
+    with open("./app/home/data/ha_token.json", "w") as f:
+        f.write(json.dumps({"token": request.form['token']}))
+
+    return render_template('simple_info_page.html', msg="ok, HA token has saved")
 
 
 @blueprint.route('/ha_entities')
 def ha_entities():
-    with open("/home/pi/.homeassistant/.storage/core.entity_registry") as f:
-        data = f.read()
-    data = json.loads(data)
-    entities = data['data']['entities']
+    with open("./app/home/data/ha_token.json", "r") as f:
+        d = json.loads(f.read())
+    token = d['token']
+    if token is None:
+        return redirect(url_for("ha_set_token"))
+    ha = HomeAssistant(ip="localhost", port=8123, token=token)
+    if not ha.is_connected():
+        return redirect(url_for("ha_set_token"))
+
+    entities = ha.get_all_entity()
+
     return render_template("ha_entities.html", msg=entities, ent_len=len(entities))
 
 

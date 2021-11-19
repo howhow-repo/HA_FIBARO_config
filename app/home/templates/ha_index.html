@@ -1,0 +1,61 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <center><h2 class="m-b-10"> Home Assistant Helper </h2></center>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+
+                    <div class="col-sm-6" style="margin:0px auto;">
+                        <div class="card">
+                            <div class="card-body">
+                                <center><h3>Home assistant access token</h3></center>
+                                <h6>此處填入HA access tokne, 使helper可對ha進行操作。</h6>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form method="post" action="/setting_ha_token">
+                                            <div class="form-group">
+                                                <label>TOKEN:</label>
+                                                {{ form.token(placeholder="access token", class="form-control") }}
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <hr>
+                                            <h6>now token:</h6>
+                                            <h6>{{last_token}}</h6>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

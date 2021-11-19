@@ -10,3 +10,7 @@ class HCForm(FlaskForm):
     port = StringField('PORT', validators=[DataRequired()], default="80")
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+
+
+class HATokenForm(FlaskForm):
+    token = StringField('TOKEN', validators=[DataRequired()])
