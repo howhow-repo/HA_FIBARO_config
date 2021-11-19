@@ -108,7 +108,7 @@ def ha_entities():
     return render_template("ha_entities.html", entities=entities, ent_len=len(entities))
 
 
-@blueprint.route('/bad_entities')
+@blueprint.route('/bad_entities', methods=['POST'])
 def bad_entities():
     return render_template('simple_info_page.html', msg=request.form)
 

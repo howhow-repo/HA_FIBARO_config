@@ -16,7 +16,7 @@
         <form method="post" action="/bad_entities">
             {%for i in entities%}
             {% if i.state == 'unavailable' or i.state == 'unavailable' %}
-                <input type="hidden" name="bad_entities[]" value="{{i.entity_id}}"> Oats
+                <input type="hidden" name="bad_entities[]" value="{{i.entity_id}}">
             {% endif %}
             {%endfor%}
             <button type="submit" class="btn btn-danger">DELETE</button>
