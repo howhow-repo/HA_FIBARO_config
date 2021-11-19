@@ -111,12 +111,12 @@ def ha_entities():
 @blueprint.route('/bad_entities', methods=['POST'])
 def bad_entities():
     s = request.form['bad_entities']
-    print(s)
-    print(type(s))
     s = s.replace('[','')
     s = s.replace(']','')
-    s = s.split(',')
-    return render_template('simple_info_page.html', msg=s)
+    s = s.replace('\r\n', '')
+    s = s.replace(' ', '')
+    bad_entities = s.split(',')
+    return render_template('simple_info_page.html', msg=bad_entities)
 
 
 @blueprint.route('/ha_rebooter')
