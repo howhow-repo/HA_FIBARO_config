@@ -22,12 +22,6 @@ def index():
     return render_template('HC-config.html', hc_info=hc_info, form=hc_form)
 
 
-@blueprint.route('/hc_index')
-def hc_index():
-    with open("./app/home/data/hc.json", "r") as f:
-        return f.read()
-
-
 @blueprint.route('/setting_hc_config', methods=['POST'])
 def setting_hc_config():
     try:
@@ -78,6 +72,13 @@ def overwrite_ha_config():
                                err_title="HC connection fail", err_msg='home assistant config file not exist')
 
 
+@blueprint.route('/ha_index')
+def ha_index():
+    with open("./app/home/data/ha_token.json", "r") as f:
+        token = (json.loads(f.read()))['token']
+        return token
+
+
 @blueprint.route('/ha_entities')
 def ha_entities():
     with open("/home/pi/.homeassistant/.storage/core.entity_registry") as f:
@@ -96,10 +97,6 @@ def ha_rebooter():
 def ha_rebooted():
     os.system("sudo systemctl restart homeassistant.service")
     return render_template('simple_info_page.html', msg="ok, restarting home assistant service.")
-
-
-
-
 
 
 @blueprint.route('/demo')
