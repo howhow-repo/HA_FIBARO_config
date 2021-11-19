@@ -65,7 +65,7 @@ def overwrite_ha_config():
 
         hc = FibaroHC3(ip=request.form['ip'], port=request.form['port'],
                        username=request.form['username'], password=request.form['password'])
-        hc_info = hc.info()
+        hc_info = hc.info.json()
         hc_info = {'ip': request.form['ip'], 'port': request.form['port'],
                    'username': request.form['username'], 'SN': hc_info['serialNumber'], 'mac': hc_info['mac']}
 
