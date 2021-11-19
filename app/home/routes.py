@@ -17,7 +17,9 @@ from app.lib.hc3 import FibaroHC3
 # @login_required
 def index():
     hc_form = HCForm()
-    return render_template('HC-config.html', segment='HC-config', form=hc_form)
+    with open("./app/home/data/hc.json", "r") as f:
+        hc_info = f.read()
+    return render_template('HC-config.html', hc_info=hc_info, form=hc_form)
 
 
 @blueprint.route('/hc_index')
@@ -31,7 +33,7 @@ def setting_hc_config():
     try:
         hc = FibaroHC3(ip=request.form['ip'], port=request.form['port'],
                        username=request.form['username'], password=request.form['password'])
-        status_code = hc.check_connection(timeout=1).status_code
+        status_code = hc.check_connection(timeout=2).status_code
 
         if status_code == 200:
             return render_template('HC-config-ok.html', hc_info=hc.get_info().json(), form_data=request.form.to_dict())
@@ -60,6 +62,15 @@ def overwrite_ha_config():
         with open('/home/pi/.homeassistant/configuration.yaml', 'w') as f:
             f.write(config_temp)
         os.system("sudo systemctl restart homeassistant.service")
+
+        hc = FibaroHC3(ip=request.form['ip'], port=request.form['port'],
+                       username=request.form['username'], password=request.form['password'])
+        hc_info = hc.info()
+        hc_info = {'ip': request.form['ip'], 'port': request.form['port'],
+                   'username': request.form['username'], 'SN': hc_info['serialNumber'], 'mac': hc_info['mac']}
+
+        with open("./app/home/data/hc.json", "w") as f:
+            f.write(json.dumps(hc_info))
         return render_template('simple_info_page.html', msg="ok, restarting home assistant service.")
 
     else:
