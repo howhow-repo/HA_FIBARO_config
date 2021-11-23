@@ -49,7 +49,7 @@ def setting_hc_config():
 def overwrite_ha_config():
     with open('./app/home/file_templates/configuration.yaml', 'r') as f:
         config_temp = f.read()
-    config_temp = config_temp.replace("{{HC_URL}}", f" http://{request.form['ip']}:{request.form['port']}/api/")
+    config_temp = config_temp.replace("{{HC_URL}}", f"http://{request.form['ip']}:{request.form['port']}/api/")
     config_temp = config_temp.replace("{{USERNAME}}", request.form['username'])
     config_temp = config_temp.replace("{{PASSWORD}}", request.form['password'])
 
@@ -137,7 +137,7 @@ def del_bad_entities():
     s = s.replace('\r\n', '')
     s = s.replace(' ', '')
     bad_entities_id = [ele for ele in s.split(',') if ele.strip()]
-    with open("/home/pi/.homeassistant/.storage/core.entity_registry", "w") as f:
+    with open("/home/pi/.homeassistant/.storage/core.entity_registry", "r+") as f:
         org_data = json.loads(f.read())
         org_entities = org_data['data']['entities']
     return render_template('simple_info_page.html', msg=[e for e in org_entities if e in bad_entities_id])
