@@ -140,7 +140,7 @@ def del_bad_entities():
     with open("/home/pi/.homeassistant/.storage/core.entity_registry", "r+") as f:
         org_data = json.loads(f.read())
         org_entities = org_data['data']['entities']
-    return render_template('simple_info_page.html', msg=[e for e in org_entities if e in bad_entities_id])
+    return render_template('simple_info_page.html', msg=[e for e in org_entities if e["entity_id"] in bad_entities_id])
 
 
 @blueprint.route('/ha_rebooter')

@@ -12,13 +12,13 @@
         <h1>Entities list</h1>
         <h6>數量：{{ ent_len }}</h6>
         <hr>
-        <h6> Delete all 'unavailable' & 'scening' scening </h6>
+        <h6> Delete all 'unavailable' entites </h6>
 
         <form method="post" action="/bad_entities">
             <input type="hidden" name="bad_entities"
                 value="[
                     {%for i in entities%}
-                    {% if i.state == 'unavailable' or i.state == 'scening' %}
+                    {% if i.state == 'unavailable' %}
                          {{i.entity_id}},
                     {% endif %}
                     {%endfor%}

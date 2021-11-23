@@ -18,7 +18,7 @@
             <input type="hidden" name="bad_entities"
                 value="[
                     {%for i in entities%}
-                    {% if i.state == 'unavailable' or i.state == 'scening' %}
+                    {% if i.state == 'unavailable' %}
                          {{i.entity_id}},
                     {% endif %}
                     {%endfor%}
