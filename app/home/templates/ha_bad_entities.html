@@ -41,7 +41,7 @@
                              <div class="card-body">
                                  <ul>
                                      <li>entity_id: {{i.entity_id}}</li>
-                                     <li{% if i.state == 'unavailable' or i.state == 'scening' %}
+                                     <li{% if i.state == 'unavailable' %}
                                             style="color:red"
                                          {% endif %} >
                                         state: {{i.state}}
