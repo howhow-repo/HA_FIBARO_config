@@ -140,6 +140,10 @@ def del_bad_entities():
     with open("/home/pi/.homeassistant/.storage/core.entity_registry", "r+") as f:
         org_data = json.loads(f.read())
         org_entities = org_data['data']['entities']
+        good_entities = [e for i, e in enumerate(org_entities) if e["entity_id"] not in bad_entities_id]
+        org_data['data']['entities'] = good_entities
+        f.write(json.dumps(org_data))
+
     return render_template('simple_info_page.html', msg=[e for e in org_entities if e["entity_id"] in bad_entities_id])
 
 
