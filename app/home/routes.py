@@ -2,23 +2,25 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-import os, json
-from app.home import blueprint
+import json
+import os
+
 from flask import render_template, redirect, url_for, request
-from flask_login import login_required, current_user
-from app import login_manager
 from jinja2 import TemplateNotFound
+from requests.exceptions import ConnectTimeout, InvalidURL
+
+from app.home import blueprint
 from app.home.forms import HCForm, HATokenForm
-from requests.exceptions import ConnectTimeout, InvalidURL, ConnectionError
 from app.lib.hc3 import FibaroHC3
 from app.lib.home_assistant import HomeAssistant
 
-
+thisFilePath = os.path.abspath(os.path.dirname(__file__))
 @blueprint.route('/')
 # @login_required
 def index():
     hc_form = HCForm()
-    with open("./app/home/data/hc.json", "r") as f:
+    print(os.path.abspath(__file__))
+    with open(f"{thisFilePath}/data/hc.json", "r") as f:
         hc_info = f.read()
     return render_template('HC-config.html', hc_info=hc_info, form=hc_form)
 
@@ -47,7 +49,7 @@ def setting_hc_config():
 
 @blueprint.route('/set_hc_config/overwrite', methods=['POST'])
 def overwrite_ha_config():
-    with open('./app/home/file_templates/configuration.yaml', 'r') as f:
+    with open(f'{thisFilePath}/file_templates/configuration.yaml', 'r') as f:
         config_temp = f.read()
     config_temp = config_temp.replace("{{HC_URL}}", f"http://{request.form['ip']}:{request.form['port']}/api/")
     config_temp = config_temp.replace("{{USERNAME}}", request.form['username'])
@@ -64,7 +66,7 @@ def overwrite_ha_config():
         hc_info = {'ip': request.form['ip'], 'port': request.form['port'],
                    'username': request.form['username'], 'SN': hc_info['serialNumber'], 'mac': hc_info['mac']}
 
-        with open("./app/home/data/hc.json", "w") as f:
+        with open(f".{thisFilePath}/data/hc.json", "w") as f:
             f.write(json.dumps(hc_info))
         return render_template('simple_info_page.html', msg="ok, restarting home assistant service.")
 
@@ -75,7 +77,7 @@ def overwrite_ha_config():
 
 @blueprint.route('/ha_token')
 def ha_index():
-    with open("./app/home/data/ha_token.json", "r") as f:
+    with open(f"{thisFilePath}/data/ha_token.json", "r") as f:
         d = json.loads(f.read())
     token = d['token']
     return render_template("ha_index.html", last_token=token, form=HATokenForm())
@@ -87,14 +89,14 @@ def ha_set_token():
     if not ha.is_connected():
         return render_template('simple_info_page.html', msg="Access failed with this token")
     else:
-        with open("./app/home/data/ha_token.json", "w") as f:
+        with open(f"{thisFilePath}/data/ha_token.json", "w") as f:
             f.write(json.dumps({"token": request.form['token']}))
         return render_template('simple_info_page.html', msg="ok, HA token has saved")
 
 
 @blueprint.route('/ha_entities')
 def ha_entities():
-    with open("./app/home/data/ha_token.json", "r") as f:
+    with open(f"{thisFilePath}/data/ha_token.json", "r") as f:
         d = json.loads(f.read())
     token = d['token']
     if token is None:
@@ -117,7 +119,7 @@ def bad_entities():
     s = s.replace(' ', '')
     bad_entities_id = [ele for ele in s.split(',') if ele.strip()]
 
-    with open("./app/home/data/ha_token.json", "r") as f:
+    with open(f"{thisFilePath}/data/ha_token.json", "r") as f:
         d = json.loads(f.read())
     token = d['token']
     if token is None:
